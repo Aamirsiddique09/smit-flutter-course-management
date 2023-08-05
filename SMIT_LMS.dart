@@ -1,13 +1,13 @@
 import 'dart:io';
+import 'dart:convert';
 
 void main() {
-  bool wrong = false;
+  bool wrong = false; // Flag to track login attempts
   String teacherEmail = "Teacher@gmail.com";
   String teacherPassword = "Teacher000";
   String studentEmail = "Student@gmail.com";
   String studentPassword = "Student000";
-  String courseName = '';
-  List<String> topics = [];
+  // Display welcome message and login options
   print("\n===== WELCOME SMIT Flutter Course  =====");
   print("Login please");
   print("1:Teacher");
@@ -15,8 +15,11 @@ void main() {
   stdout.write("Enter your choice: ");
   var choice = stdin.readLineSync()!;
 /*=============================(TEACHER LOGIN)=================================== */
+
+  // Teacher and Student login branches
   switch (choice) {
     case '1':
+      // Teacher Login
       while (!(wrong)) {
         print("Enter your Email:");
         String inputEmail = stdin.readLineSync()!;
@@ -29,7 +32,7 @@ void main() {
             print("1.Add Course Outline ");
             print("2.Class Timetable ");
             print("3.Add Assignment");
-            print("4. Student Performance");
+            print("4. Add Quiz");
             print("5. Exit");
             stdout.write("Enter your choice: ");
             var choice = stdin.readLineSync();
@@ -38,21 +41,10 @@ void main() {
               case '1':
                 while (true) {
                   print('\n============Course Ingformation=============');
-                  print('Welcome! Please provide the course name:');
-                  courseName = stdin.readLineSync() ?? '';
+                  runCourseManagement();
 
-                  topics = [];
-                  addTopic(topics);
-                  print(
-                      "Press (yes) for view Outline of courseand (no) for back");
-                  var command = stdin.readLineSync() ?? '';
-                  if (command.toLowerCase() == 'yes') {
-                    displayOutline(courseName, topics);
-                  } else if (command.toLowerCase() == 'no') {
-                    break;
-                  }
+                  break;
                 }
-                break;
 
               case '2':
                 print('\n============Class Timetable=============');
@@ -88,58 +80,16 @@ void main() {
                   break;
                 }
               case '4':
-                print('\n===========Student Performancet=============');
-                // Adding some sample students initially
-                students.add(Student("John Doe", 101, 0.0));
-                students.add(Student("Alice Smith", 102, 0.0));
-                students.add(Student("Bob Johnson", 103, 0.0));
-                bool a = true;
-
-                while (a) {
-                  print("\nStudent Performance Dashboard");
-                  print("1. Add Student");
-                  print("2. Add Exam Score");
-                  print("3. View Performance Dashboard");
-                  print("4. Exit");
-
-                  print("Enter your choice (1/2/3/4):");
-                  String choice = stdin.readLineSync()!;
-
-                  switch (choice) {
-                    case '1':
-                      addStudent();
-                      break;
-                    case '2':
-                      if (students.isEmpty) {
-                        print("No students found. Please add students first.");
-                      } else {
-                        viewPerformanceDashboard();
-                        print("Enter student number to add exam score:");
-                        int studentNumber =
-                            int.parse(stdin.readLineSync()!) - 1;
-                        if (studentNumber >= 0 &&
-                            studentNumber < students.length) {
-                          addExamScore(studentNumber);
-                        } else {
-                          print("Invalid student number.");
-                        }
-                      }
-                      break;
-                    case '3':
-                      viewPerformanceDashboard();
-                      break;
-                    case '4':
-                      print("Exiting...");
-                      a = false;
-                    default:
-                      print("Invalid choice. Please try again.");
-                  }
-                }
+                print('\n===========QUIZ SECTION=============');
+                List<Quiz> quizzes = loadQuizzes();
+                addQuiz(quizzes);
+                saveQuizzes(quizzes);
+                print('Quiz added and saved successfully!');
               case '5':
                 print('Thank you so much using SMIT LMS');
                 print("Exiting...");
 
-                return;
+                break;
               default:
                 print("Invalid choice. Please try again.");
             }
@@ -165,7 +115,7 @@ void main() {
             print("1.Course information ");
             print("2.Class Timetable ");
             print("3.Assignment");
-            print("4. Student Performance");
+            print("4. Quiz");
             print("5. Exit");
             stdout.write("Enter your choice: ");
             var choice = stdin.readLineSync();
@@ -173,9 +123,8 @@ void main() {
             switch (choice) {
               case '1':
                 print('\n============Course Ingformation=============');
-
-                displayOutline(courseName, topics);
-
+                loadCourses();
+                displayCourses();
               case '2':
                 print('\n============Class Timetable=============');
                 generateTimetable();
@@ -210,53 +159,12 @@ void main() {
                   break;
                 }
               case '4':
-                print('\n===========Student Performancet=============');
-                // Adding some sample students initially
-                students.add(Student("John Doe", 101, 0.0));
-                students.add(Student("Alice Smith", 102, 0.0));
-                students.add(Student("Bob Johnson", 103, 0.0));
-                bool a = true;
-
-                while (a) {
-                  print("\nStudent Performance Dashboard");
-                  print("1. Add Student");
-                  print("2. Add Exam Score");
-                  print("3. View Performance Dashboard");
-                  print("4. Exit");
-
-                  print("Enter your choice (1/2/3/4):");
-                  String choice = stdin.readLineSync()!;
-
-                  switch (choice) {
-                    case '1':
-                      addStudent();
-                      break;
-                    case '2':
-                      if (students.isEmpty) {
-                        print("No students found. Please add students first.");
-                      } else {
-                        viewPerformanceDashboard();
-                        print("Enter student number to add exam score:");
-                        int studentNumber =
-                            int.parse(stdin.readLineSync()!) - 1;
-                        if (studentNumber >= 0 &&
-                            studentNumber < students.length) {
-                          addExamScore(studentNumber);
-                        } else {
-                          print("Invalid student number.");
-                        }
-                      }
-                      break;
-                    case '3':
-                      viewPerformanceDashboard();
-                      break;
-                    case '4':
-                      print("Exiting...");
-                      a = false;
-                    default:
-                      print("Invalid choice. Please try again.");
-                  }
-                }
+                print('\n===========QUIZ SECTION=============');
+                print('Welcome to Quiz  Section');
+                Student student = loadStudentDetails();
+                List<Quiz> quizzes = loadQuizzes();
+                takeQuiz(student, quizzes);
+                saveStudentDetails(student);
               case '5':
                 print('Thank you so much using SMIT LMS');
                 print("Exiting...");
@@ -278,23 +186,156 @@ void main() {
 
 /*========================= (Teacher)  Case 1 =============================== */
 //Here we add Course Outlines
-void addTopic(List<String> topics) {
-  print('Enter a topic to add to the course outline (or "exit" to quit):');
-  String input = stdin.readLineSync() ?? '';
 
-  if (input.toLowerCase() != 'exit') {
-    topics.add(input);
-    print('Topic added successfully!\n');
-    addTopic(topics);
+class Course {
+  String name;
+  List<Outline> outlines;
+
+  Course(this.name, this.outlines);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'outlines': outlines.map((outline) => outline.toJson()).toList(),
+    };
+  }
+
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
+      json['name'],
+      (json['outlines'] as List<dynamic>)
+          .map((outlineJson) => Outline.fromJson(outlineJson))
+          .toList(),
+    );
+  }
+
+  void display() {
+    print('Course: $name');
+    print('Outlines:');
+    outlines.forEach((outline) {
+      print('  - ${outline.title}: ${outline.description}');
+    });
   }
 }
 
-//Here we add Display Course Outlines
-void displayOutline(String courseName, List<String> topics) {
-  print('Course: $courseName');
-  print('Topics:');
-  for (int i = 0; i < topics.length; i++) {
-    print('${i + 1}. ${topics[i]}');
+class Outline {
+  String title;
+  String description;
+
+  Outline(this.title, this.description);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+    };
+  }
+
+  factory Outline.fromJson(Map<String, dynamic> json) {
+    return Outline(json['title'], json['description']);
+  }
+}
+
+List<Course> courses = []; // Global list to store courses
+
+void runCourseManagement() {
+  while (true) {
+    print('\nMenu:');
+    print('1. Load existing data');
+    print('2.Add a new course and its outlines ');
+    print('3. Display loaded courses and outlines');
+    print('4. Save data and exit');
+    print('Enter your choice (1/2/3/4):');
+
+    String choice = stdin.readLineSync()?.trim() ?? '';
+
+    switch (choice) {
+      case '1':
+        loadCourses();
+
+        break;
+
+      case '2':
+        addCourse();
+        print('Course and outlines added successfully.\n');
+
+        break;
+      case '3':
+        displayCourses();
+        break;
+
+      case '4':
+        saveCourses();
+        print('Data saved to data.json.\n');
+        break;
+
+      default:
+        print('Invalid choice. Please try again.\n');
+        break;
+    }
+  }
+}
+
+void loadCourses() {
+  String filePath = 'data.json';
+
+  try {
+    String jsonData = File(filePath).readAsStringSync();
+    List<dynamic> jsonList = json.decode(jsonData);
+    courses = jsonList.map((json) => Course.fromJson(json)).toList();
+  } catch (e) {
+    print('Error loading data from data.json: $e');
+  }
+}
+
+void saveCourses() {
+  String filePath = 'data.json';
+  List<Map<String, dynamic>> coursesJson =
+      courses.map((course) => course.toJson()).toList();
+
+  String jsonString = json.encode(coursesJson);
+
+  try {
+    File(filePath).writeAsStringSync(jsonString);
+  } catch (e) {
+    print('Error saving data to data.json: $e');
+  }
+}
+
+void addCourse() {
+  print('Enter the name of the course:');
+  String courseName = stdin.readLineSync() ?? '';
+
+  List<Outline> outlines = [];
+
+  while (true) {
+    print(
+        'Enter the title of the outline (or type "done" to finish adding outlines):');
+    String title = stdin.readLineSync() ?? '';
+
+    if (title.toLowerCase() == 'done') {
+      break;
+    }
+
+    print('Enter the description of the outline:');
+    String description = stdin.readLineSync() ?? '';
+
+    outlines.add(Outline(title, description));
+  }
+
+  Course newCourse = Course(courseName, outlines);
+  courses.add(newCourse);
+}
+
+void displayCourses() {
+  if (courses.isNotEmpty) {
+    print('\nLoaded Courses and Outlines:');
+    courses.forEach((course) {
+      course.display();
+      print('\n');
+    });
+  } else {
+    print('No data loaded yet.\n');
   }
 }
 
@@ -383,47 +424,230 @@ void viewAssignments() {
 }
 
 /*============================= (Teacher) Case 4 ============================== */
-class Student {
-  final String name;
-  final int rollNumber;
-  double examScore;
+class Question {
+  String prompt;
+  List<String> options;
+  int correctAnswer;
 
-  Student(this.name, this.rollNumber, this.examScore);
+  Question(this.prompt, this.options, this.correctAnswer);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'prompt': prompt,
+      'options': options,
+      'correctAnswer': correctAnswer,
+    };
+  }
+
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+      json['prompt'],
+      List<String>.from(json['options']),
+      json['correctAnswer'],
+    );
+  }
 }
 
-List<Student> students = [];
+class Quiz {
+  String title;
+  List<Question> questions;
 
-void addStudent() {
-  print("Enter student name:");
-  String name = stdin.readLineSync()!;
+  Quiz(this.title, this.questions);
 
-  print("Enter student roll number:");
-  int rollNumber = int.parse(stdin.readLineSync()!);
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'questions': questions.map((question) => question.toJson()).toList(),
+    };
+  }
 
-  students.add(Student(name, rollNumber, 0.0));
-  print("Student added successfully!");
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+    return Quiz(
+      json['title'],
+      (json['questions'] as List<dynamic>)
+          .map((questionJson) => Question.fromJson(questionJson))
+          .toList(),
+    );
+  }
 }
 
-void addExamScore(int studentIndex) {
-  print("Enter exam score for ${students[studentIndex].name}:");
-  double score = double.parse(stdin.readLineSync()!);
+List<Quiz> loadQuizzes() {
+  String filePath = 'quizzes.json';
+  List<Quiz> quizzes = [];
 
-  students[studentIndex].examScore = score;
-  print("Exam score added successfully!");
+  try {
+    String jsonData = File(filePath).readAsStringSync();
+    List<dynamic> jsonList = json.decode(jsonData);
+
+    quizzes = jsonList.map((json) => Quiz.fromJson(json)).toList();
+  } catch (e) {
+    print('Error loading quizzes from quizzes.json: $e');
+  }
+
+  return quizzes;
 }
 
-void viewPerformanceDashboard() {
-  if (students.isEmpty) {
-    print("No students found.");
-  } else {
-    print("Performance Dashboard:");
-    for (var i = 0; i < students.length; i++) {
-      var student = students[i];
-      print("Student ${i + 1}:");
-      print("Name: ${student.name}");
-      print("Roll Number: ${student.rollNumber}");
-      print("Exam Score: ${student.examScore}");
-      print("-------------");
+void saveQuizzes(List<Quiz> quizzes) {
+  String filePath = 'quizzes.json';
+  List<Map<String, dynamic>> quizzesJson =
+      quizzes.map((quiz) => quiz.toJson()).toList();
+
+  String jsonString = json.encode(quizzesJson);
+
+  try {
+    File(filePath).writeAsStringSync(jsonString);
+  } catch (e) {
+    print('Error saving quizzes to quizzes.json: $e');
+  }
+}
+
+void addQuiz(List<Quiz> quizzes) {
+  print('Enter the title of the new quiz:');
+  String title = stdin.readLineSync()?.trim() ?? '';
+
+  List<Question> questions = [];
+
+  while (true) {
+    print(
+        'Enter the question prompt (or type "done" to finish adding questions):');
+    String prompt = stdin.readLineSync()?.trim() ?? '';
+
+    if (prompt.toLowerCase() == 'done') {
+      break;
     }
+
+    List<String> options = [];
+    int correctAnswer;
+
+    for (int i = 1; i <= 4; i++) {
+      print('Enter option $i:');
+      String option = stdin.readLineSync()?.trim() ?? '';
+      options.add(option);
+    }
+
+    while (true) {
+      print('Enter the index of the correct answer (1-4):');
+      String input = stdin.readLineSync()?.trim() ?? '';
+      correctAnswer = int.tryParse(input)!;
+
+      if (correctAnswer != null && correctAnswer >= 1 && correctAnswer <= 4) {
+        break;
+      }
+      print('Invalid input. Please enter a number between 1 and 4.');
+    }
+
+    questions.add(Question(prompt, options, correctAnswer - 1));
+  }
+
+  Quiz newQuiz = Quiz(title, questions);
+  quizzes.add(newQuiz);
+}
+/*================================ (FUNCTIONs ) ================================= */
+
+/*========================= (Student)  Case 1 =============================== */
+
+class Student {
+  String name;
+  String rollNumber;
+  List<Map<String, dynamic>> quizResults = [];
+
+  Student(this.name, this.rollNumber);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'rollNumber': rollNumber,
+      'quizResults': quizResults,
+    };
+  }
+
+  factory Student.fromJson(Map<String, dynamic> json) {
+    var student = Student(json['name'], json['rollNumber']);
+    student.quizResults = List<Map<String, dynamic>>.from(json['quizResults']);
+    return student;
+  }
+}
+
+Student loadStudentDetails() {
+  print('Enter your name:');
+  String name = stdin.readLineSync()?.trim() ?? '';
+
+  print('Enter your roll number:');
+  String rollNumber = stdin.readLineSync()?.trim() ?? '';
+
+  return Student(name, rollNumber);
+}
+
+void takeQuiz(Student student, List<Quiz> quizzes) {
+  print('Choose a quiz to take:');
+  for (int i = 0; i < quizzes.length; i++) {
+    print('${i + 1}. ${quizzes[i].title}');
+  }
+
+  int selectedQuiz;
+  while (true) {
+    String input = stdin.readLineSync()?.trim() ?? '';
+    selectedQuiz = int.tryParse(input)!;
+    if (selectedQuiz != null &&
+        selectedQuiz >= 1 &&
+        selectedQuiz <= quizzes.length) {
+      break;
+    }
+    print(
+        'Invalid input. Please enter a number between 1 and ${quizzes.length}.');
+  }
+
+  Quiz quiz = quizzes[selectedQuiz - 1];
+  int totalQuestions = quiz.questions.length;
+  int correctAnswers = 0;
+
+  for (int i = 0; i < totalQuestions; i++) {
+    Question question = quiz.questions[i];
+    print('\nQuestion ${i + 1}: ${question.prompt}');
+
+    for (int j = 0; j < question.options.length; j++) {
+      print('${j + 1}. ${question.options[j]}');
+    }
+
+    int selectedAnswer;
+    while (true) {
+      String input = stdin.readLineSync()?.trim() ?? '';
+      selectedAnswer = int.tryParse(input)!;
+      if (selectedAnswer != null &&
+          selectedAnswer >= 1 &&
+          selectedAnswer <= 4) {
+        break;
+      }
+      print('Invalid input. Please enter a number between 1 and 4.');
+    }
+
+    if (selectedAnswer - 1 == question.correctAnswer) {
+      print('Correct!\n');
+      correctAnswers++;
+    } else {
+      print(
+          'Incorrect. The correct answer is: ${question.options[question.correctAnswer]}\n');
+    }
+  }
+
+  double score = (correctAnswers / totalQuestions) * 100;
+  print('Quiz completed. Your score: ${score.toStringAsFixed(2)}%\n');
+
+  Map<String, dynamic> quizResult = {
+    'quiz': quiz.title,
+    'score': score.toStringAsFixed(2),
+  };
+  student.quizResults.add(quizResult);
+}
+
+void saveStudentDetails(Student student) {
+  String filePath = 'student_details.json';
+  Map<String, dynamic> studentJson = student.toJson();
+
+  try {
+    File(filePath).writeAsStringSync(json.encode(studentJson));
+    print('Student details saved to student_details.json.');
+  } catch (e) {
+    print('Error saving student details to student_details.json: $e');
   }
 }
