@@ -1,77 +1,67 @@
-# 🌟 SMIT Flutter Course Management System
+<h1 align="center">
+  <img src="https://your-image-url.com/cover-image.png" alt="SMIT Flutter Course Management System">
+</h1>
 
-This is a command-line-based Flutter course management system built using Dart. The system allows teachers and students to manage course outlines, class timetables, assignments, and student performance.
+<h2 align="center">SMIT Flutter Course Management System</h2>
 
-## Table of Contents
+<p align="center">
+  A powerful and user-friendly command-line application for managing courses, assignments, and quizzes for SMIT Flutter Course.
+</p>
 
-- [Overview](#overview)
-- [Teacher Login](#teacher-login)
-- [Student Login](#student-login)
-- [Functions](#functions)
-    - [Course Outline](#course-outline)
-    - [Class Timetable](#class-timetable)
-    - [Assignments](#assignments)
-    - [Student Performance](#student-performance)
-- [How to Run](#how-to-run)
-- [License](#license)
-- [Contribution](#contribution)
+<div align="center">
+  <a href="#description">Description</a> •
+  <a href="#features">Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#license">License</a>
+</div>
 
-## 📚 Overview
+<div align="center">
+  <img src="https://img.shields.io/badge/Made%20with-Dart-blue.svg" alt="Made with Dart">
+  <img src="https://img.shields.io/github/license/your-username/smit-flutter-course" alt="License">
+</div>
 
-This Flutter course management system allows users to log in as a teacher or a student. It provides features for managing course outlines, class timetables, assignments, and student performance.
+---
 
-### 👩‍🏫 Teacher Login
+## 🚀 Description
 
-- The teacher can log in using their email and password.
-- After successful login, the teacher can perform the following actions:
-    - Add course outlines and topics.
-    - Generate and view class timetables.
-    - Add assignments and view existing assignments.
-    - Manage student performance, add students, and assign exam scores.
+The SMIT Flutter Course Management System is a versatile and interactive command-line application built using Dart. It empowers both teachers and students to streamline their course-related activities, ensuring a seamless learning experience.
 
-### 👩‍🎓 Student Login
+---
 
-- The student can log in using their email and password.
-- After successful login, the student can perform the following actions:
-    - View course information and course outline.
-    - View class timetables.
-    - Submit assignments and view existing assignments.
-    - View their performance dashboard with exam scores.
+## 🌟 Features
 
-## 📋 Functions
+### For Teachers
 
-### Course Outline
+- **Course Management**: Easily add, edit, and manage course outlines with detailed descriptions.
+- **Timetable Generation**: Generate class timetables for effective scheduling.
+- **Assignment Dashboard**: Create assignments, view submitted assignments, and manage student progress.
+- **Engaging Quizzes**: Develop quizzes, view results, and track student performance.
 
-- The teacher can add course outlines by providing the course name and adding topics one by one.
-- The course outline can be viewed at any time.
+### For Students
 
-### Class Timetable
+- **Course Information**: Access detailed course outlines and essential information.
+- **Timetable Access**: View the class timetable to stay organized.
+- **Assignment Submission**: Submit assignments, view deadlines, and keep track of submissions.
+- **Interactive Quizzes**: Engage in quizzes, receive instant feedback, and assess your understanding.
 
-- The teacher can generate class timetables for the next six months, including class dates on Thursdays and Saturdays.
+---
+## 🛠️ Installation
 
-### Assignments
+Follow these steps to set up and run the SMIT Flutter Course Management System:
 
-- The teacher can add assignments with names, descriptions, and due dates.
-- Students can submit assignments, and the teacher can view existing assignments.
+1. **Install Dart**: If Dart is not already installed, follow the instructions [here](https://dart.dev/get-dart).
 
-### Student Performance
+2. **Clone the Repository**:
 
-- The teacher can add students with names and roll numbers.
-- The teacher can assign exam scores to students and view the performance dashboard with all students' exam scores.
-
-## 🚀 How to Run
-
-1. Ensure you have Dart installed on your system.
-2. Clone this repository to your local machine.
-3. Open a terminal and navigate to the project folder.
-4. Run the Dart code using the following command:
-
-```bash
-dart main.dart
-📄 License
+   ```sh
+   git clone https://github.com/Aamirsiddique09/smit-flutter-course.git
+   cd smit-flutter-course
+   dart main.dart
+📝 License
 This project is licensed under the MIT License.
 
-🤝 Contribution
-Contributions to the project are welcome. If you find any bugs or have suggestions for improvements, please open an issue or create a pull request.
-
-Feel free to modify and enhance the appearance further as per your preference! The use of emojis, formatting, and headings helps make the README more engaging and visually appealing.
+<div align="center">
+  Made with ❤️ by Aamir Siddique
+</div>
