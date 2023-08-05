@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://your-image-url.com/cover-image.png" alt="SMIT Flutter Course Management System">
+  <img src="https://github.com/Aamirsiddique09/smit-flutter-course-management/blob/main/SMIT%20Course%20Managment%20system.png" alt="SMIT Flutter Course Management System">
 </h1>
 
 <h2 align="center">SMIT Flutter Course Management System</h2>
